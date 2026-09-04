@@ -1,0 +1,26 @@
+<div class="address-input">
+  <label>{{ label }}
+    <input
+      #addressInput
+      type="text"
+      [value]="value"
+      [placeholder]="placeholder"
+      autocomplete="off"
+      required
+      (input)="onInput($any($event.target).value)"
+      (focus)="onFocus()"
+      (keydown)="onKeydown($event)">
+  </label>
+
+  @if (isOpen && suggestions.length > 0) {
+    <ul class="address-suggestions" role="listbox">
+      @for (place of suggestions; track place) {
+        <li>
+          <button type="button" role="option" (mousedown)="$event.preventDefault()" (click)="selectSuggestion(place)">
+            {{ placeLabel(place) }}
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>

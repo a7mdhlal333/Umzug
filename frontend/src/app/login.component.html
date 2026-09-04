@@ -1,0 +1,30 @@
+<main class="shell login-shell" [dir]="language.direction()">
+  <header class="masthead">
+    <button class="language-switch" type="button" (click)="language.toggle()">{{ language.language() === 'de' ? 'عربي' : 'Deutsch' }}</button>
+    <p class="eyebrow">{{ language.t('brand') }}</p>
+    <h1>{{ language.t('loginTitle').split('|')[0] }}<br><em>{{ language.t('loginTitle').split('|')[1] }}</em></h1>
+    <p class="intro">{{ language.t('loginIntro') }}</p>
+  </header>
+
+  <form class="panel login-panel" (ngSubmit)="login()">
+    <div class="panel-heading">
+      <h2>{{ language.t('session') }}</h2>
+    </div>
+    <label>{{ language.t('name') }}
+      <input type="text" name="name" [(ngModel)]="name" required>
+    </label>
+    <label>{{ language.t('phone') }}
+      <input type="tel" name="telefonnummer" [(ngModel)]="telefonnummer" placeholder="z. B. +49 170 1234567" pattern="^(\+49|0)[1-9][0-9]{6,13}$" required>
+    </label>
+    <label>{{ language.t('role') }}
+      <select name="rolle" [(ngModel)]="rolle">
+        <option value="KUNDE">{{ language.t('customer') }}</option>
+        <option value="FAHRER">{{ language.t('driver') }}</option>
+      </select>
+    </label>
+    <button type="submit" [disabled]="isSubmitting">
+      {{ isSubmitting ? language.t('loading') : language.t('continue') }} <span>→</span>
+    </button>
+  </form>
+  @if (message) { <p class="message">{{ message }}</p> }
+</main>

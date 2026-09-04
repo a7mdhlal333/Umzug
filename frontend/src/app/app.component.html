@@ -1,0 +1,71 @@
+<main class="shell">
+  <header class="masthead">
+    <p class="eyebrow">UMZUG · BOOKING DESK</p>
+    <h1>Fahrten, die<br><em>ankommen.</em></h1>
+    <p class="intro">Buchungen anlegen und offene Umzüge direkt einem Fahrer zuweisen.</p>
+  </header>
+
+  <section class="workspace">
+    <form class="panel create-panel" (ngSubmit)="createBooking()">
+      <div class="panel-heading">
+        <span class="index">01</span>
+        <h2>Neue Buchung</h2>
+      </div>
+      <label>
+        Kunden-ID
+        <input type="number" name="kundeId" [(ngModel)]="kundeId" min="1" required>
+      </label>
+      <label>
+        Startadresse
+        <input type="text" name="von" [(ngModel)]="von" placeholder="z. B. Berlin" required>
+      </label>
+      <label>
+        Zieladresse
+        <input type="text" name="nach" [(ngModel)]="nach" placeholder="z. B. Hamburg" required>
+      </label>
+      <button type="submit">Buchung erstellen <span>→</span></button>
+    </form>
+
+    <section class="panel list-panel">
+      <div class="panel-heading list-heading">
+        <div>
+          <span class="index">02</span>
+          <h2>Aktuelle Buchungen</h2>
+        </div>
+        <button class="refresh" type="button" (click)="loadBookings()" aria-label="Buchungen aktualisieren">↻</button>
+      </div>
+
+      <label class="driver-field">
+        Fahrer-ID für Annahme
+        <input type="number" name="fahrerId" [(ngModel)]="fahrerId" min="1">
+      </label>
+
+      @if (bookings.length === 0) {
+        <p class="empty">Noch keine Buchungen vorhanden.</p>
+      } @else {
+        <div class="booking-list">
+          @for (booking of bookings; track booking.id) {
+            <article class="booking-row">
+              <div class="route">
+                <strong>{{ booking.von }}</strong>
+                <span>→</span>
+                <strong>{{ booking.nach }}</strong>
+              </div>
+              <div class="meta">
+                <span>#{{ booking.id }} · Kunde {{ booking.kundeId }}</span>
+                <span class="status" [class.accepted]="booking.status === 'ANGENOMMEN'">{{ booking.status }}</span>
+              </div>
+              @if (booking.status === 'NEU') {
+                <button class="accept" type="button" (click)="acceptBooking(booking)">Annehmen</button>
+              }
+            </article>
+          }
+        </div>
+      }
+    </section>
+  </section>
+
+  @if (message) {
+    <p class="message">{{ message }}</p>
+  }
+</main>

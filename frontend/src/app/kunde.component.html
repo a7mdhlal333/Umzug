@@ -1,0 +1,30 @@
+<main class="shell" [dir]="language.direction()">
+  <header class="masthead page-header">
+    <div>
+      <button class="language-switch" type="button" (click)="language.toggle()">{{ language.language() === 'de' ? 'عربي' : 'Deutsch' }}</button>
+      <p class="eyebrow">{{ language.t('customerArea') }} · {{ session.user()?.name }}</p>
+      <h1>{{ language.t('customerTitle').split('|')[0] }}<br><em>{{ language.t('customerTitle').split('|')[1] }}</em></h1>
+      <p class="intro">{{ language.t('customerIntro') }}</p>
+    </div>
+    <button class="secondary" type="button" (click)="logout()">{{ language.t('logout') }}</button>
+  </header>
+
+  <section class="workspace customer-workspace">
+    <form class="panel create-panel" (ngSubmit)="createBooking()">
+      <div class="panel-heading"><span class="index">01</span><h2>{{ language.t('newBooking') }}</h2></div>
+      <app-address-input [label]="language.t('from')" [placeholder]="language.language() === 'de' ? 'z. B. Stuttgart' : 'مثال: شتوتغارت'" [(value)]="von" />
+      <app-address-input [label]="language.t('to')" [placeholder]="language.language() === 'de' ? 'z. B. Mannheim' : 'مثال: مانهايم'" [(value)]="nach" />
+      <button type="submit">{{ language.t('createBooking') }} <span>→</span></button>
+    </form>
+
+    <section class="panel list-panel">
+      <div class="panel-heading list-heading"><div><span class="index">02</span><h2>{{ language.t('myBookings') }}</h2></div><button class="refresh" type="button" (click)="loadBookings()" aria-label="Buchungen aktualisieren">↻</button></div>
+      @if (bookings.length === 0) { <p class="empty">{{ language.t('noBookings') }}</p> } @else {
+        <div class="booking-list">@for (booking of bookings; track booking.id) {
+          <article class="booking-row"><div class="route"><strong>{{ booking.von }}</strong><span>→</span><strong>{{ booking.nach }}</strong></div><div class="meta"><span>#{{ booking.id }}</span><span class="status" [class.accepted]="booking.status === 'ANGENOMMEN'">{{ booking.status }}</span></div>@if (booking.status === 'ANGENOMMEN' && booking.fahrerId !== null && fahrerTelefonnummer[booking.fahrerId]) { <div class="contact">{{ language.t('driverContact') }}: {{ fahrerTelefonnummer[booking.fahrerId] }}</div> }</article>
+        }</div>
+      }
+    </section>
+  </section>
+  @if (message) { <p class="message">{{ message }}</p> }
+</main>
