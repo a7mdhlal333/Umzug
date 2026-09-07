@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,6 +19,7 @@ public class User {
 
     private String name;
 
+    @Column(unique = true)
     private String telefonnummer;
 
     @Enumerated(EnumType.STRING)
