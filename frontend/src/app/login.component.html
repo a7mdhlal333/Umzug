@@ -14,7 +14,7 @@
       <input type="text" name="name" [(ngModel)]="name" required>
     </label>
     <label>{{ language.t('phone') }}
-      <input type="tel" name="telefonnummer" [(ngModel)]="telefonnummer" placeholder="z. B. +49 170 1234567" pattern="^(\+49|0)[1-9][0-9]{6,13}$" required>
+      <input type="tel" name="telefonnummer" [(ngModel)]="telefonnummer" placeholder="z. B. +49 170 1234567 oder 0049 170 1234567" pattern="^[0-9+()\s-]+$" required>
     </label>
     <label>{{ language.t('role') }}
       <select name="rolle" [(ngModel)]="rolle">

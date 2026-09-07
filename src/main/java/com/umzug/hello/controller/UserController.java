@@ -36,8 +36,8 @@ public class UserController {
             return ResponseEntity.badRequest().body("Name, Telefonnummer und Rolle sind erforderlich.");
         }
 
-        String telefonnummer = request.telefonnummer().trim();
-        if (!telefonnummer.matches("^(\\+49|0)[1-9][0-9]{6,13}$")) {
+        String telefonnummer = request.telefonnummer().trim().replaceAll("[\\s()-]", "");
+        if (!telefonnummer.matches("^(\\+49|0049|0)[1-9][0-9]{6,13}$")) {
             return ResponseEntity.badRequest().body("Bitte eine gültige deutsche Telefonnummer eingeben.");
         }
 

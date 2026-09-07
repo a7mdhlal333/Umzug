@@ -25,6 +25,22 @@ textarea {
   margin: 0 auto;
 }
 
+.notice {
+  position: fixed;
+  z-index: 20;
+  top: 24px;
+  left: 50%;
+  width: min(420px, calc(100% - 32px));
+  padding: 14px 18px;
+  border: 1px solid #e67845;
+  border-radius: 10px;
+  color: #18212f;
+  background: #fff8e8;
+  box-shadow: 0 12px 30px #1a263329;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
 .card {
   width: 100%;
   padding: 24px;

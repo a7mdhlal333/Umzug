@@ -35,10 +35,12 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     acceptedRides: 'Meine angenommenen Fahrten',
     customerContact: 'Kunde',
     missingLogin: 'Bitte Name und Telefonnummer vollständig angeben.',
-    invalidPhone: 'Bitte eine gültige deutsche Telefonnummer eingeben, z. B. 01512345678 oder +491512345678.',
+    invalidPhone: 'Bitte eine gültige deutsche Telefonnummer eingeben, z. B. 01512345678, +491512345678 oder 004915750759121.',
     loginError: 'Login konnte nicht durchgeführt werden. Läuft das Backend auf Port 8080?',
     missingAddresses: 'Bitte Start- und Zieladresse auswählen.',
     bookingCreated: 'Buchung wurde erstellt.',
+    newRequestNotice: 'Neue Anfrage eingegangen.',
+    driverFoundNotice: 'Dein Fahrer wurde gefunden.',
     bookingError: 'Buchung konnte nicht erstellt werden.',
     customerNotFound: 'Kunde wurde nicht gefunden.',
     bookingAccepted: 'Anfrage wurde angenommen.',
@@ -79,10 +81,12 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     acceptedRides: 'رحلاتي المقبولة',
     customerContact: 'العميل',
     missingLogin: 'يرجى إدخال الاسم ورقم الهاتف بالكامل.',
-    invalidPhone: 'يرجى إدخال رقم هاتف ألماني صحيح، مثل 01512345678 أو +491512345678.',
+    invalidPhone: 'يرجى إدخال رقم هاتف ألماني صحيح، مثل 01512345678 أو +491512345678 أو 004915750759121.',
     loginError: 'تعذر تسجيل الدخول. هل يعمل الخادم على المنفذ 8080؟',
     missingAddresses: 'يرجى اختيار عنوان الانطلاق والوصول.',
     bookingCreated: 'تم إنشاء الحجز.',
+    newRequestNotice: 'وصل طلب نقل جديد.',
+    driverFoundNotice: 'تم العثور على سائقك.',
     bookingError: 'تعذر إنشاء الحجز.',
     customerNotFound: 'لم يتم العثور على العميل.',
     bookingAccepted: 'تم قبول الطلب.',
@@ -100,6 +104,24 @@ export class LanguageService {
 
   t(key: string): string {
     return translations[this.language()][key] ?? key;
+  }
+
+  speak(text: string): void {
+    if (!('speechSynthesis' in window)) {
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const announcement = new SpeechSynthesisUtterance(text);
+    announcement.lang = this.language() === 'ar' ? 'ar-SA' : 'de-DE';
+    announcement.rate = 0.95;
+    window.speechSynthesis.speak(announcement);
+  }
+
+  stopSpeaking(): void {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
   }
 
   toggle(): void {

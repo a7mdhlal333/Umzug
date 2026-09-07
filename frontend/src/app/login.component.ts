@@ -23,15 +23,18 @@ export class LoginComponent {
   rolle: UserRole = 'KUNDE';
   message = '';
   isSubmitting = false;
-  readonly phonePattern = '^(\\+49|0)[1-9][0-9]{6,13}$';
+  readonly phonePattern = '^(\\+49|0049|0)[1-9][0-9]{6,13}$';
 
   login(): void {
-    if (!this.name.trim() || !this.telefonnummer.trim()) {
+    const name = this.name.trim();
+    const telefonnummer = this.telefonnummer.trim().replace(/[\s()-]/g, '');
+
+    if (!name || !telefonnummer) {
       this.message = this.language.t('missingLogin');
       return;
     }
 
-    if (!new RegExp(this.phonePattern).test(this.telefonnummer.trim())) {
+    if (!new RegExp(this.phonePattern).test(telefonnummer)) {
       this.message = this.language.t('invalidPhone');
       return;
     }
@@ -39,8 +42,8 @@ export class LoginComponent {
     this.message = '';
     this.isSubmitting = true;
     this.userService.login({
-      name: this.name.trim(),
-      telefonnummer: this.telefonnummer.trim(),
+      name,
+      telefonnummer,
       rolle: this.rolle
     }).subscribe({
       next: (user) => {
@@ -54,7 +57,7 @@ export class LoginComponent {
       },
       error: (error: HttpErrorResponse) => {
         this.isSubmitting = false;
-        this.message = error.status === 400 ? this.language.t('missingLogin') : this.language.t('loginError');
+        this.message = error.status === 400 ? this.language.t('invalidPhone') : this.language.t('loginError');
       }
     });
   }

@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { interval, Subscription } from 'rxjs';
 import { BookingService } from './booking.service';
 import { Booking } from './booking.model';
 import { SessionService } from './session.service';
@@ -12,7 +13,7 @@ import { LanguageService } from './language.service';
   standalone: true,
   templateUrl: './fahrer.component.html'
 })
-export class FahrerComponent {
+export class FahrerComponent implements OnDestroy {
   private readonly bookingService = inject(BookingService);
   private readonly router = inject(Router);
   private readonly userService = inject(UserService);
@@ -23,12 +24,27 @@ export class FahrerComponent {
   acceptedBookings: Booking[] = [];
   readonly kundeTelefonnummer: Record<number, string> = {};
   message = '';
+  notice = '';
+  private knownBookingIds: Set<number> | null = null;
+  private readonly polling = new Subscription();
+  private noticeTimeout?: ReturnType<typeof setTimeout>;
 
-  constructor() { this.loadBookings(); }
+  constructor() {
+    this.loadBookings();
+    this.polling.add(interval(10000).subscribe(() => this.loadBookings(true)));
+  }
 
-  loadBookings(): void {
+  loadBookings(isPoll = false): void {
     this.bookingService.getAllBookings().subscribe({
       next: (bookings) => {
+        const currentBookingIds = new Set(bookings.map((booking) => booking.id));
+        if (isPoll && this.knownBookingIds) {
+          const hasNewRequest = bookings.some((booking) => booking.status === 'NEU' && !this.knownBookingIds?.has(booking.id));
+          if (hasNewRequest) {
+            this.showNotice(this.language.t('newRequestNotice'));
+          }
+        }
+        this.knownBookingIds = currentBookingIds;
         const fahrerId = this.session.user()?.id;
         this.bookings = bookings.filter((booking) => booking.status === 'NEU');
         this.acceptedBookings = bookings.filter((booking) => booking.status === 'ANGENOMMEN' && booking.fahrerId === fahrerId);
@@ -36,6 +52,23 @@ export class FahrerComponent {
       },
       error: () => this.message = this.language.t('bookingError')
     });
+  }
+
+  ngOnDestroy(): void {
+    this.polling.unsubscribe();
+    this.language.stopSpeaking();
+    if (this.noticeTimeout) {
+      clearTimeout(this.noticeTimeout);
+    }
+  }
+
+  private showNotice(text: string): void {
+    this.notice = text;
+    this.language.speak(text);
+    if (this.noticeTimeout) {
+      clearTimeout(this.noticeTimeout);
+    }
+    this.noticeTimeout = setTimeout(() => this.notice = '', 4000);
   }
 
   acceptBooking(booking: Booking): void {

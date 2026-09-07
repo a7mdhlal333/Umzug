@@ -1,4 +1,5 @@
 <main class="shell" [dir]="language.direction()">
+  @if (notice) { <div class="notice" role="status">{{ notice }}</div> }
   <header class="masthead page-header">
     <div>
       <button class="language-switch" type="button" (click)="language.toggle()">{{ language.language() === 'de' ? 'عربي' : 'Deutsch' }}</button>
