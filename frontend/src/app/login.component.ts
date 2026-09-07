@@ -18,7 +18,7 @@ export class LoginComponent {
   private readonly userService = inject(UserService);
   readonly language = inject(LanguageService);
 
-  name = 'Ahmad';
+  name = '';
   telefonnummer = '';
   rolle: UserRole = 'KUNDE';
   message = '';

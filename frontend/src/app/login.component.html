@@ -11,10 +11,10 @@
       <h2>{{ language.t('session') }}</h2>
     </div>
     <label>{{ language.t('name') }}
-      <input type="text" name="name" [(ngModel)]="name" required>
+      <input type="text" name="name" placeholder="z. B. Ali" [(ngModel)]="name" required>
     </label>
     <label>{{ language.t('phone') }}
-      <input type="tel" name="telefonnummer" [(ngModel)]="telefonnummer" placeholder="z. B. +49 170 1234567 oder 0049 170 1234567" pattern="^[0-9+()\s-]+$" required>
+      <input type="tel" name="telefonnummer" autocomplete="tel" [(ngModel)]="telefonnummer" placeholder="z. B. 015750759010 oder 004915750759010" pattern="^[0-9+()\s-]+$" required>
     </label>
     <label>{{ language.t('role') }}
       <select name="rolle" [(ngModel)]="rolle">
