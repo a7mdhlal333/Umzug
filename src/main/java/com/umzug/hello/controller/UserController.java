@@ -41,7 +41,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("Bitte eine gültige deutsche Telefonnummer eingeben.");
         }
 
-        User user = userRepository.findByTelefonnummer(telefonnummer).orElse(null);
+        User user = userRepository.findFirstByTelefonnummerOrderByIdAsc(telefonnummer).orElse(null);
         if (user == null) {
             user = new User(request.name().trim(), telefonnummer, request.rolle());
         }

@@ -6,5 +6,5 @@ import java.util.Optional;
 import com.umzug.hello.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-	Optional<User> findByTelefonnummer(String telefonnummer);
+	Optional<User> findFirstByTelefonnummerOrderByIdAsc(String telefonnummer);
 }
