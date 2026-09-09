@@ -46,7 +46,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("Bitte eine gültige deutsche Telefonnummer eingeben.");
         }
 
-        User existingUser = userRepository.findFirstByTelefonnummerOrderByIdAsc(telefonnummer).orElse(null);
+        User existingUser = userRepository.findByTelefonnummer(telefonnummer).orElse(null);
         if (existingUser != null) {
             return ResponseEntity.ok(existingUser);
         }
