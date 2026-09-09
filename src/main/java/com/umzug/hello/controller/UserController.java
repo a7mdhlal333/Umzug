@@ -46,11 +46,13 @@ public class UserController {
             return ResponseEntity.badRequest().body("Bitte eine gültige deutsche Telefonnummer eingeben.");
         }
 
-        User user = userRepository.findFirstByTelefonnummerOrderByIdAsc(telefonnummer).orElse(null);
-        if (user == null) {
-            user = new User(request.name().trim(), telefonnummer, request.rolle());
+        User existingUser = userRepository.findFirstByTelefonnummerOrderByIdAsc(telefonnummer).orElse(null);
+        if (existingUser != null) {
+            return ResponseEntity.ok(existingUser);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(user));
+
+        User newUser = new User(request.name().trim(), telefonnummer, request.rolle());
+        return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(newUser));
     }
 
     private boolean isBlank(String value) {
