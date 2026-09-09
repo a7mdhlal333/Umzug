@@ -23,6 +23,11 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/health")
+    public ResponseEntity<Void> health() {
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         return userRepository.findById(id)

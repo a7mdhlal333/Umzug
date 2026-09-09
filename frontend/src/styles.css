@@ -321,9 +321,40 @@ button {
 
   .contact {
     grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     color: #287348;
     font-size: 0.85rem;
     font-weight: 700;
+  }
+
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .call-link,
+  .copy-button {
+    min-height: 34px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .call-link {
+    color: #fff;
+    background: #287348;
+    text-decoration: none;
+  }
+
+  .copy-button {
+    color: #18212f;
+    background: #eef1f4;
   }
 
   .status {

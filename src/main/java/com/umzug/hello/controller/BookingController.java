@@ -35,16 +35,19 @@ public class BookingController {
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
 
+    /** Erstellt den Controller mit den benötigten Datenbank-Repositories. */
     public BookingController(BookingRepository bookingRepository, UserRepository userRepository) {
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
     }
 
+    /** Liefert alle gespeicherten Buchungen. */
     @GetMapping
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
 
+    /** Liefert eine Buchung oder antwortet mit 404, wenn sie nicht existiert. */
     @GetMapping("/{id}")
     public ResponseEntity<Booking> getBooking(@PathVariable Long id) {
         return bookingRepository.findById(id)
@@ -52,6 +55,7 @@ public class BookingController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /** Erstellt eine neue Buchung für einen vorhandenen Kunden. */
     @PostMapping
     public ResponseEntity<Booking> createBooking(@RequestBody CreateBookingRequest request) {
         return userRepository.findById(request.kundeId())
@@ -61,11 +65,12 @@ public class BookingController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    /*
-    Buchung nicht vorhanden: 404 Not Found
-    Fahrer nicht vorhanden: 404 Not Found
-    User ist kein Fahrer: 403 Forbidden
-    Alles korrekt: Buchung wird angenommen */
+
+    /**
+     * Nimmt eine offene Buchung für einen gültigen Fahrer an.
+     * Antwortet mit 404 bei fehlender Buchung oder fehlendem Fahrer,
+     * mit 403 bei einem Nicht-Fahrer und mit 409 bei einer bereits angenommenen Buchung.
+     */
     @PatchMapping("/{id}/accept")
     public ResponseEntity<Booking> acceptBooking(
             @PathVariable Long id,
@@ -93,9 +98,11 @@ public class BookingController {
         return ResponseEntity.ok(bookingRepository.save(booking));
     }
 
+    /** Daten für das Erstellen einer Buchung. */
     public record CreateBookingRequest(Long kundeId, String von, String nach) {
     }
 
+    /** Fahrer-ID für das Annehmen einer Buchung. */
     public record AcceptBookingRequest(Long fahrerId) {
     }
     /*

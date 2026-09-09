@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { LanguageService } from './language.service';
   imports: [FormsModule],
   templateUrl: './login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly session = inject(SessionService);
   private readonly userService = inject(UserService);
@@ -24,6 +24,10 @@ export class LoginComponent {
   message = '';
   isSubmitting = false;
   readonly phonePattern = '^(\\+49|0049|0)[1-9][0-9]{6,13}$';
+
+  ngOnInit(): void {
+    this.userService.warmUp().subscribe({ error: () => undefined });
+  }
 
   login(): void {
     const name = this.name.trim();

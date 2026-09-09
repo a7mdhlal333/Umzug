@@ -76,6 +76,20 @@ export class KundeComponent implements OnDestroy {
     this.noticeTimeout = setTimeout(() => this.notice = '', 4000);
   }
 
+  async kopiereNummer(nummer: string): Promise<void> {
+    if (!navigator.clipboard) {
+      this.showNotice(this.language.t('copyError'));
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(nummer);
+      this.showNotice(this.language.t('numberCopied'));
+    } catch {
+      this.showNotice(this.language.t('copyError'));
+    }
+  }
+
   private loadFahrerTelefonnummer(fahrerId: number): void {
     if (this.fahrerTelefonnummer[fahrerId]) {
       return;

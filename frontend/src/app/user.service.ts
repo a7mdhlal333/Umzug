@@ -23,6 +23,10 @@ export class UserService {
     return this.http.post<LoggedInUser>(`${this.apiUrl}/login`, request);
   }
 
+  warmUp(): Observable<void> {
+    return this.http.get<void>(`${this.apiUrl}/health`);
+  }
+
   getUser(id: number): Observable<LoggedInUser> {
     return this.http.get<LoggedInUser>(`${this.apiUrl}/${id}`);
   }
