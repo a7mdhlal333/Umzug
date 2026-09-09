@@ -337,8 +337,7 @@ button {
     gap: 8px;
   }
 
-  .call-link,
-  .copy-button {
+  .call-link {
     min-height: 34px;
     padding: 7px 10px;
     border-radius: 7px;
@@ -350,11 +349,6 @@ button {
     color: #fff;
     background: #287348;
     text-decoration: none;
-  }
-
-  .copy-button {
-    color: #18212f;
-    background: #eef1f4;
   }
 
   .status {

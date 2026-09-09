@@ -22,7 +22,7 @@
     <section class="panel list-panel accepted-list-panel">
       <div class="panel-heading"><span class="index">02</span><h2>{{ language.t('acceptedRides') }}</h2></div>
       <div class="booking-list">@for (booking of acceptedBookings; track booking.id) {
-        <article class="booking-row"><div class="route"><strong>{{ booking.von }}</strong><span>→</span><strong>{{ booking.nach }}</strong></div><div class="meta"><span>#{{ booking.id }} · {{ language.t('customer') }} {{ booking.kundeId }}</span></div>@if (kundeTelefonnummer[booking.kundeId]) { <div class="contact"><span>{{ language.t('customerContact') }}: {{ kundeTelefonnummer[booking.kundeId] }}</span><div class="contact-actions"><a [href]="'tel:' + kundeTelefonnummer[booking.kundeId]" class="call-link">{{ language.t('call') }}</a><button type="button" class="copy-button" (click)="kopiereNummer(kundeTelefonnummer[booking.kundeId])">{{ language.t('copy') }}</button></div></div> }</article>
+        <article class="booking-row"><div class="route"><strong>{{ booking.von }}</strong><span>→</span><strong>{{ booking.nach }}</strong></div><div class="meta"><span>#{{ booking.id }} · {{ language.t('customer') }} {{ booking.kundeId }}</span></div>@if (kundeTelefonnummer[booking.kundeId]) { <div class="contact"><span>{{ language.t('customerContact') }}: {{ kundeTelefonnummer[booking.kundeId] }}</span><div class="contact-actions"><a [href]="'tel:' + kundeTelefonnummer[booking.kundeId]" class="call-link">{{ language.t('call') }}</a></div></div> }</article>
       }</div>
     </section>
   }
