@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable, catchError, of, shareReplay, switchMap } from 'rxjs';
 import { SessionService, UserRole } from './session.service';
 import { UserService } from './user.service';
 import { LanguageService } from './language.service';
@@ -24,9 +25,17 @@ export class LoginComponent implements OnInit {
   message = '';
   isSubmitting = false;
   readonly phonePattern = '^(\\+49|0049|0)[1-9][0-9]{6,13}$';
+  private readonly backendReady$: Observable<void>;
+
+  constructor() {
+    this.backendReady$ = this.userService.warmUp().pipe(
+      catchError(() => of(void 0)),
+      shareReplay({ bufferSize: 1, refCount: false })
+    );
+  }
 
   ngOnInit(): void {
-    this.userService.warmUp().subscribe({ error: () => undefined });
+    this.backendReady$.subscribe();
   }
 
   login(): void {
@@ -45,11 +54,13 @@ export class LoginComponent implements OnInit {
 
     this.message = '';
     this.isSubmitting = true;
-    this.userService.login({
-      name,
-      telefonnummer,
-      rolle: this.rolle
-    }).subscribe({
+    this.backendReady$.pipe(
+      switchMap(() => this.userService.login({
+        name,
+        telefonnummer,
+        rolle: this.rolle
+      }))
+    ).subscribe({
       next: (user) => {
         this.session.login({
           id: user.id,
