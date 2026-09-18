@@ -7,9 +7,8 @@ import { BookingService } from './booking.service';
 import { Booking } from './booking.model';
 import { SessionService } from './session.service';
 import { AddressInputComponent } from './address-input.component';
-import { UserService } from './user.service';
 import { LanguageService } from './language.service';
-
+import { UserService, LoggedInUser } from './user.service';
 @Component({
   selector: 'app-kunde',
   standalone: true,
@@ -28,6 +27,7 @@ export class KundeComponent implements OnDestroy {
   nach = '';
   message = '';
   notice = '';
+  fahrerListe: LoggedInUser[] = [];
   readonly fahrerTelefonnummer: Record<number, string> = {};
   private previousStatuses = new Map<number, Booking['status']>();
   private hasLoadedBookings = false;
@@ -36,6 +36,7 @@ export class KundeComponent implements OnDestroy {
 
   constructor() {
     this.loadBookings();
+    this.loadFahrer();
     this.polling.add(interval(10000).subscribe(() => this.loadBookings(true)));
   }
 
@@ -57,6 +58,11 @@ export class KundeComponent implements OnDestroy {
       },
       error: () => this.message = 'Buchungen konnten nicht geladen werden.'
     });
+  }
+  loadFahrer(): void {
+  this.userService.getFahrer().subscribe({
+    next: (fahrer) => this.fahrerListe = fahrer
+  });
   }
 
   ngOnDestroy(): void {

@@ -26,6 +26,23 @@
         }</div>
       }
     </section>
-  </section>
+     </section>
+
+    <section class="panel fahrer-panel">
+      <div class="panel-heading"><span class="index">03</span><h2>{{ language.t('availableDrivers') }}</h2></div>
+      @if (fahrerListe.length === 0) {
+        <p class="empty">{{ language.t('noDrivers') }}</p>
+      } @else {
+        <div class="fahrer-list">
+          @for (fahrer of fahrerListe; track fahrer.id) {
+            <div class="fahrer-row">
+              <span>{{ fahrer.name }}</span>
+              <a [href]="'tel:' + fahrer.telefonnummer" class="call-link">{{ language.t('call') }}</a>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  
   @if (message) { <p class="message">{{ message }}</p> }
 </main>

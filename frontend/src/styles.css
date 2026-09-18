@@ -173,6 +173,16 @@ button {
     margin: 0;
     font-size: 1.25rem;
   }
+  .fahrer-panel {
+  margin-top: 24px;
+ }
+ .fahrer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+}
 
   .index {
     color: #e67845;

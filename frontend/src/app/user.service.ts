@@ -22,7 +22,9 @@ export class UserService {
   login(request: LoginRequest): Observable<LoggedInUser> {
     return this.http.post<LoggedInUser>(`${this.apiUrl}/login`, request);
   }
-
+   getFahrer(): Observable<LoggedInUser[]> {
+  return this.http.get<LoggedInUser[]>(`${this.apiUrl}/fahrer`);
+  }
   warmUp(): Observable<void> {
     return this.http.get<void>(`${this.apiUrl}/health`);
   }
@@ -30,4 +32,5 @@ export class UserService {
   getUser(id: number): Observable<LoggedInUser> {
     return this.http.get<LoggedInUser>(`${this.apiUrl}/${id}`);
   }
+ 
 }
