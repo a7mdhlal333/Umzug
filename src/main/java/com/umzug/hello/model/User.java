@@ -35,7 +35,11 @@ public class User {
         this.name = name;
         this.rolle = rolle;
     }
-
+    public User(String name, String telefonnummer, Role rolle) {
+    this.name = name;
+    this.telefonnummer = telefonnummer;
+    this.rolle = rolle;
+   }
     public User(String name, String telefonnummer, Role rolle, FahrzeugGroesse fahrzeugGroesse) {
         this.name = name;
         this.telefonnummer = telefonnummer;
