@@ -36,7 +36,12 @@
         <div class="fahrer-list">
           @for (fahrer of fahrerListe; track fahrer.id) {
             <div class="fahrer-row">
-              <span>{{ fahrer.name }}</span>
+              <span>{{ fahrer.name }}
+                @if (fahrer.fahrzeugGroesse) {
+                   · {{ fahrer.fahrzeugGroesse === 'GROSS' ? language.t('vehicleLarge') : language.t('vehicleSmall') }}
+                }
+
+              </span>
               <a [href]="'tel:' + fahrer.telefonnummer" class="call-link">{{ language.t('call') }}</a>
             </div>
           }

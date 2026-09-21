@@ -22,6 +22,14 @@
         <option value="FAHRER">{{ language.t('driver') }}</option>
       </select>
     </label>
+        @if (rolle === 'FAHRER') {
+      <label>{{ language.t('vehicleSize') }}
+        <select name="fahrzeugGroesse" [(ngModel)]="fahrzeugGroesse">
+          <option value="KLEIN">{{ language.t('vehicleSmall') }}</option>
+          <option value="GROSS">{{ language.t('vehicleLarge') }}</option>
+        </select>
+      </label>
+    }
     <button type="submit" [disabled]="isSubmitting">
       {{ isSubmitting ? language.t('loading') : language.t('continue') }} <span>→</span>
     </button>

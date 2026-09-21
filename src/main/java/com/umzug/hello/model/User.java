@@ -25,6 +25,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role rolle;
 
+    @Enumerated(EnumType.STRING)
+    private FahrzeugGroesse fahrzeugGroesse;
+
     protected User() {
     }
 
@@ -33,10 +36,11 @@ public class User {
         this.rolle = rolle;
     }
 
-    public User(String name, String telefonnummer, Role rolle) {
+    public User(String name, String telefonnummer, Role rolle, FahrzeugGroesse fahrzeugGroesse) {
         this.name = name;
         this.telefonnummer = telefonnummer;
         this.rolle = rolle;
+        this.fahrzeugGroesse = fahrzeugGroesse;
     }
 
     public Long getId() {
@@ -67,7 +71,19 @@ public class User {
         this.rolle = rolle;
     }
 
+    public FahrzeugGroesse getFahrzeugGroesse() {
+    return fahrzeugGroesse;
+   }
+
+   public void setFahrzeugGroesse(FahrzeugGroesse fahrzeugGroesse) {
+    this.fahrzeugGroesse = fahrzeugGroesse;
+  }
+
     public enum Role {
         KUNDE, FAHRER
+    }
+
+    public enum FahrzeugGroesse {
+    KLEIN, GROSS
     }
 }

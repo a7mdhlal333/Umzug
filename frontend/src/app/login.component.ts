@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, catchError, of, shareReplay, switchMap } from 'rxjs';
 import { SessionService, UserRole } from './session.service';
-import { UserService } from './user.service';
+import { UserService, LoginRequest } from './user.service';
 import { LanguageService } from './language.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   name = '';
   telefonnummer = '';
   rolle: UserRole = 'KUNDE';
+  fahrzeugGroesse: 'KLEIN' | 'GROSS' = 'KLEIN';
   message = '';
   isSubmitting = false;
   readonly phonePattern = '^(\\+49|0049|0)[1-9][0-9]{6,13}$';
@@ -52,14 +53,19 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    const loginRequest: LoginRequest = {
+      name,
+      telefonnummer,
+      rolle: this.rolle
+    };
+    if (this.rolle === 'FAHRER') {
+      loginRequest.fahrzeugGroesse = this.fahrzeugGroesse;
+    }
+
     this.message = '';
     this.isSubmitting = true;
     this.backendReady$.pipe(
-      switchMap(() => this.userService.login({
-        name,
-        telefonnummer,
-        rolle: this.rolle
-      }))
+      switchMap(() => this.userService.login(loginRequest))
     ).subscribe({
       next: (user) => {
         this.session.login({

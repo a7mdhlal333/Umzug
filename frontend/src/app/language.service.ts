@@ -50,7 +50,10 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     notFound: 'Buchung oder Fahrer wurde nicht gefunden.',
     alreadyAccepted: 'Diese Buchung wurde bereits angenommen.',
     availableDrivers: 'Verfügbare Fahrer',
-    noDrivers: 'Aktuell keine Fahrer registriert.'
+    noDrivers: 'Aktuell keine Fahrer registriert.',
+    vehicleSize: 'Fahrzeuggröße',
+    vehicleSmall: 'Kleines Auto',
+    vehicleLarge: 'Großes Auto'
   },
   ar: {
     brand: 'نقل · منصة الحجز',
@@ -99,7 +102,10 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     notFound: 'لم يتم العثور على الحجز أو السائق.',
     alreadyAccepted: 'تم قبول هذا الحجز مسبقاً.',
     availableDrivers: 'السائقون المتاحون',
-    noDrivers: 'لا يوجد سائقون مسجلون حالياً'
+    noDrivers: 'لا يوجد سائقون مسجلون حالياً',
+    vehicleSize: 'حجم السيارة',
+    vehicleSmall: 'سيارة صغيرة',
+    vehicleLarge: 'سيارة كبيرة'
   }
 };
 

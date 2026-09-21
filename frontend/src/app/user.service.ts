@@ -8,6 +8,7 @@ export interface LoginRequest {
   name: string;
   telefonnummer: string;
   rolle: UserRole;
+  fahrzeugGroesse?: 'KLEIN' | 'GROSS';
 }
 
 export interface LoggedInUser extends LoginRequest {

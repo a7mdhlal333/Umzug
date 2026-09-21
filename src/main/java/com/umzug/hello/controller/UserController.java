@@ -56,7 +56,7 @@ public List<User> alleFahrer() {
             return ResponseEntity.ok(existingUser);
         }
 
-        User newUser = new User(request.name().trim(), telefonnummer, request.rolle());
+        User newUser = new User(request.name().trim(), telefonnummer, request.rolle(), request.fahrzeugGroesse());
         return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(newUser));
     }
 
@@ -64,6 +64,6 @@ public List<User> alleFahrer() {
         return value == null || value.isBlank();
     }
 
-    public record LoginRequest(String name, String telefonnummer, User.Role rolle) {
+    public record LoginRequest(String name, String telefonnummer, User.Role rolle, User.FahrzeugGroesse fahrzeugGroesse) {
     }
 }
